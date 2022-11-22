@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import './Card.css';
 import {useDispatch} from 'react-redux'
+import { types } from '../../types/types';
 
 
 const Card = () => {
@@ -32,7 +33,7 @@ const Card = () => {
   }
 
   const handleCardholderName = (e) => {
-     if(e.target.value.match(/^[a-zA-Z\s]+$/) === null){
+     if(!e.target.value.match(/^[a-zA-Z\s]+$/)){
       return
     } 
 
@@ -42,60 +43,98 @@ const Card = () => {
 
   const handleCardNumber = (e) => {
 
-    if(e.target.value.match(/^[0-9]+$/) === null){
+    if(!e.target.value.match(/^[0-9]+$/)){
       return
     } 
     const trimmedNumber = e.target.value.trim()
     setCardNumber(trimmedNumber)
   }
 
-  const handleCvvCode = (e) => {
-    if(e.target.value.length > 3){
-      return
-    }
-    setCvvCode(e.target.value)
-  }
+  const handleInputLength = (e, type) => {
+    switch(type){
+      case types.expMonth:
+        if(e.target.value.length > 2){
+          break
+        }
+        setExpMonth(e.target.value)
+        break
 
-  const handleExpMonth = (e) => {
-    if(e.target.value.length > 2){
-      return
-    }
-    setExpMonth(e.target.value)
-  }
+      case types.expYear:
+        if(e.target.value.length > 4){
+          break
+        }
+        setExpYear(e.target.value)
+        break
 
-  const handleExpYear = (e) => {
-    if(e.target.value.length > 4){
-      return
+      case types.cvvCode:
+        if(e.target.value.length > 3){
+          break
+        }
+        setCvvCode(e.target.value)
+        break
+
     }
-    setExpYear(e.target.value)
   }
 
 
   return (
     <div className={`card ${flip ? "flip" : ""}`}>
       <form onSubmit={onSubmit} id="form">
-        <div id="front" className={`card-front ${flip ? "flip" : ""}`}>
+        <div 
+        id="front" 
+        className={`card-front ${flip ? "flip" : ""}`}>
           <div>
-            <button type="button" id="flip-btn" onClick={() => setFlip(!flip)}>Flip</button>
+            <button type="button"
+             id="flip-btn" 
+             onClick={() => setFlip(!flip)}>
+              Flip
+              </button>
             
-            <input required="true" type="tel" id="card-number" inputMode="numeric" pattern="[0-9\s]{16}" maxLength="16" placeholder="0000 0000 0000 0000" value={cardNumber} onChange={handleCardNumber}/>
+            <input required="true" 
+            type="tel" 
+            id="card-number" 
+            inputMode="numeric" 
+            pattern="[0-9\s]{16}" 
+            maxLength="16" 
+            placeholder="0000 0000 0000 0000" 
+            value={cardNumber}
+            onChange={handleCardNumber}/>
           </div>
 
           <div className="ch-vthru">
             <div className="date-field">
                 <label id="valid-thru">VALID THRU</label>
                   <div className="month-picker">
-                    <input required="true" type="number" min="01" max="12" className="mm-yy" id="month" placeholder="MM" value={expMonth} onChange={handleExpMonth}/>
+                    <input required="true" 
+                    type="number" 
+                    min="01" max="12" 
+                    className="mm-yy" 
+                    id="month" 
+                    placeholder="MM" 
+                    value={expMonth} 
+                    onChange={(e) => handleInputLength(e, types.expMonth)}/>
                   </div>
                   <div id="dash">/</div>
                   <div className="year-picker">
-                    <input required="true" type="number" min="2018" max="2026" className="mm-yy" id="year" placeholder="YYYY" value={expYear} onChange={handleExpYear}/>
+                    <input required="true" 
+                    type="number" 
+                    min="2018" max="2026" 
+                    className="mm-yy" 
+                    id="year" 
+                    placeholder="YYYY" 
+                    value={expYear} 
+                    onChange={(e) => handleInputLength(e, types.expYear)}/>
                   </div>
             </div>        
             
             <div>
                 <label htmlFor="name" id="cardholder">CARDHOLDER</label>
-                  <input required="true" type="text" id="name" placeholder="NAME SURNAME" value={cardholderName} onChange={handleCardholderName}/>
+                  <input required="true" 
+                  type="text" 
+                  id="name" 
+                  placeholder="NAME SURNAME" 
+                  value={cardholderName} 
+                  onChange={handleCardholderName}/>
             </div>
           </div>
 
@@ -105,10 +144,15 @@ const Card = () => {
           <button type="button" id="flip-btn-back" onClick={() => setFlip(!flip)}>qilᖷ</button>
               <div className="cvv-field">
                 <label htmlFor="cvv" id="cvv-text">VVƆ</label>
-                  <input required="true" type="number" id="cvv" min="001" max="999" value={cvvCode} onChange={handleCvvCode}/> 
+                  <input required="true" 
+                  type="number" 
+                  id="cvv" 
+                  min="001" max="999" 
+                  value={cvvCode} 
+                  onChange={(e) => handleInputLength(e, types.cvvCode)}/> 
               </div>
               <div className="submit-btn">
-                  <input type="submit" id="submit-button" value="bbA"/>
+                  <button type="submit" id="submit-button">bbA</button>
               </div>           
         </div> 
     </form>
