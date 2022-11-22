@@ -44,8 +44,6 @@
     backface-visibility: hidden;
 }
 
-
-
 .card-back.flip{
     transform: rotateY(360deg);
     /* backface-visibility: hidden; */

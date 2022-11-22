@@ -16,14 +16,14 @@ const Table = () => {
     <th>CVV Code</th>
   </tr>
   {store.cards.card.map((item) => (
-                    <tr key={item.id} id="table-row">
-                        <td>{item.cardholderName}</td>
-                        <td>{item.cardNumber}</td>
-                        <td>{item.expMonth}/{item.expYear}</td>
-                        <td>{item.cvvCode}</td>
-                    </tr>
+      <tr key={item.id} id="table-row">
+           <td>{item.cardholderName}</td>
+           <td>{item.cardNumber}</td>
+           <td>{item.expMonth}/{item.expYear}</td>
+           <td>{item.cvvCode}</td>
+      </tr>
                     
-                ))}
+       ))}
   </tbody>
 </table>            
   )
